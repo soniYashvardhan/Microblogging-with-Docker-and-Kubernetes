@@ -2,11 +2,12 @@ from flask import Flask, render_template, request, redirect
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from datetime import datetime
+import subprocess
 
 app = Flask(__name__)
 
-user = 'username'           # username as set for the mongodb admin server (the username used in secret.yaml - before base64 conversion)
-password = 'password'       # password as set for the mongodb admin server (the password used in secret.yaml - before base64 conversion)
+user = 'fullMarks'           # username as set for the mongodb admin server (the username used in secret.yaml - before base64 conversion)
+password = 'apple123'       # password as set for the mongodb admin server (the password used in secret.yaml - before base64 conversion)
 host = 'mongodb-service'    # service name of the mongodb admin server as set in the service for mongodb server
 port = '27017'              # port number of the mongodb admin server as set in the service for mongodb server
 conn_string = f'mongodb://{user}:{password}@{host}:{port}'
@@ -16,6 +17,11 @@ db = MongoClient(conn_string).blog
 @app.route('/')
 def home():
     posts = list(db.posts.find({}))
+    if(len(posts)==0):
+        subprocess.call("run.py", shell=True)
+        db.posts.insert_one({"title": "mein kumpf", "author": "Fuhrer", "createdAt": datetime.now()})
+        db.posts.insert_one({"title": "BJP", "author": "Amit Kaka", "createdAt": datetime.now()})
+        db.posts.insert_one({"title": "harry potter", "author": "rowling", "createdAt": datetime.now()})
     return render_template("home.html", homeIsActive=True, createPostIsActive=False, posts=posts)
 
 @app.route('/create-post', methods=["GET", "POST"])

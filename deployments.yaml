@@ -94,7 +94,7 @@ spec:
     spec:
       containers:
         - name: flask-app
-          image: yashvardhansoni/flask-app:1.1.0
+          image: yashvardhansoni/flask-app:1.5.0
           imagePullPolicy: Never
           ports:
             - containerPort: 5001

@@ -29,6 +29,7 @@ spec:
     - protocol: TCP
       port: 8081
       targetPort: 8081
+      nodePort: 30001
 ---
 # define a `Service` for flask-app
 # set the type to LoadBalancer and configure the ports
@@ -41,6 +42,6 @@ spec:
   selector:
     app: flask-app
   ports:
-    - port: 8080
+    - port: 5001
       targetPort: 5001
   type: LoadBalancer
